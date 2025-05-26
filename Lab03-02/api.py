@@ -20,9 +20,9 @@ def rsa_encrypt():
     key_type = data['key_type']
 
     if key_type == 'public':
-        key = public_key
+        key = rsa_cipher.public_key
     elif key_type == 'private':
-        key = private_key
+        key = rsa_cipher.private_key
     else:
         return jsonify({'error': 'Invalid key type'})
 
@@ -38,9 +38,9 @@ def rsa_decrypt():
     key_type = data['key_type']
 
     if key_type == 'public':
-        key = public_key
+        key = rsa_cipher.public_key
     elif key_type == 'private':
-        key = private_key
+        key = rsa_cipher.private_key
     else:
         return jsonify({'error': 'Invalid key type'})
 
@@ -56,9 +56,9 @@ def rsa_sign():
     key_type = data['key_type']
 
     if key_type == 'private':
-        key = private_key
+        key = rsa_cipher.private_key
     elif key_type == 'public':
-        key = public_key
+        key = rsa_cipher.public_key
     else:
         return jsonify({'error': 'Invalid key type'})
 
@@ -74,9 +74,8 @@ def rsa_verify():
     signature_hex = data['signature']
 
     signature = bytes.fromhex(signature_hex)
-    is_verified = rsa_cipher.verify(message, signature, public_key)
+    is_verified = rsa_cipher.verify(message, signature, rsa_cipher.public_key)
     return jsonify({'is_verified': is_verified})
-
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
